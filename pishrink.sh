@@ -140,6 +140,7 @@ else
   exit
 fi
 }
+mount -o remount,rw / # just to be sure 
 raspi_config_expand
 echo "WARNING: Using backup expand..."
 sleep 5
@@ -327,7 +328,7 @@ minsize=$(cut -d ':' -f 2 <<< "$minsize" | tr -d ' ')
 logVariables $LINENO currentsize minsize
 if [[ $currentsize -eq $minsize ]]; then
   error $LINENO "Image already shrunk to smallest size"
-  exit 11
+  # exit 11 # with read only images this can happen, just ignore it
 fi
 
 #Add some free space to the end of the filesystem
